@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Defs>
+	<WorkGiverDef>
+		<defName>FBF_Enslavement</defName>
+		<label>enslave prisoners</label>
+		<giverClass>FriendsByForce.WorkGiver_Warden_Enslavement</giverClass>
+		<workType>Warden</workType>
+		<verb>enslave</verb>
+		<gerund>enslaving</gerund>
+		<priorityInType>105</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
+</Defs>

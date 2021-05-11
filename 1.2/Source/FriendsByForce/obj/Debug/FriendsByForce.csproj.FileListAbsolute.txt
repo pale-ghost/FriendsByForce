@@ -1,0 +1,5 @@
+c:\GAMES\Rimworld\Mods\FriendsByForce\1.2\Assemblies\FriendsByForce.dll
+c:\GAMES\Rimworld\Mods\FriendsByForce\1.2\Source\FriendsByForce\obj\Debug\FriendsByForce.csprojAssemblyReference.cache
+c:\GAMES\Rimworld\Mods\FriendsByForce\1.2\Source\FriendsByForce\obj\Debug\FriendsByForce.csproj.CoreCompileInputs.cache
+c:\GAMES\Rimworld\Mods\FriendsByForce\1.2\Source\FriendsByForce\obj\Debug\FriendsByForce.csproj.CopyComplete
+c:\GAMES\Rimworld\Mods\FriendsByForce\1.2\Source\FriendsByForce\obj\Debug\FriendsByForce.dll

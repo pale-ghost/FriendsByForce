@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+	<JobDef>
+		<defName>FBF_EnslavePrisoner</defName>
+		<driverClass>FriendsByForce.JobDriver_EnslavePrisoner</driverClass>
+		<reportString>enslaving TargetA.</reportString>
+	</JobDef>
+
+</Defs>

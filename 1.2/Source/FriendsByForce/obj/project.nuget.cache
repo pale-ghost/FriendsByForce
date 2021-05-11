@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "7q4W8YKMsh+prEbaD+pfqqM8rLnDEvWvJcEiZV5CX6gdJ6k3/Vy7zcqUhCBCt/H8Z3yfYPGtYviBOPBRbtmXAA==",
+  "success": true,
+  "projectFilePath": "c:\\GAMES\\Rimworld\\Mods\\FriendsByForce\\1.2\\Source\\FriendsByForce\\FriendsByForce.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vova\\.nuget\\packages\\krafs.rimworld.ref\\1.2.2900\\krafs.rimworld.ref.1.2.2900.nupkg.sha512",
+    "C:\\Users\\Vova\\.nuget\\packages\\lib.harmony\\2.0.4\\lib.harmony.2.0.4.nupkg.sha512"
+  ],
+  "logs": []
+}
