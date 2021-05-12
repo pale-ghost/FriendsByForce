@@ -34,7 +34,7 @@ namespace FriendsByForce
         private static Dictionary<Pawn, CompEnslavement> cachedComps = new Dictionary<Pawn, CompEnslavement>();
         public static CompEnslavement GetCachedSlaveComp(this Pawn pawn)
         {
-            if (!cachedComps.TryGetValue(pawn, out var comp))
+            if (!cachedComps.TryGetValue(pawn, out var comp) || comp is null)
             {
                 comp = pawn.TryGetComp<CompEnslavement>();
                 cachedComps[pawn] = comp;

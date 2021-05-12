@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+
+	<FBF.EnslavedPrisoner>{PAWN_nameDef} has enslaved {SLAVE_nameDef}</FBF.EnslavedPrisoner>
+	<FBF.FailedToEnslave>{PAWN_nameDef} failed to enslave {SLAVE_nameDef}</FBF.FailedToEnslave>
+
+</LanguageData>

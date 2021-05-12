@@ -50,10 +50,10 @@ namespace FriendsByForce
                         bool success = true;
                         var slaveComp = Utils.GetCachedSlaveComp(Victim);
 
-                        if (!Victim.jobs.curDriver.asleep && !Victim.story.traits.HasTrait(TraitDef.Named("Wimp")) && !Victim.InMentalState && !Victim.Downed)
+                        if ((!Victim.jobs?.curDriver?.asleep ?? false) && (!Victim.story?.traits?.HasTrait(TraitDef.Named("Wimp")) ?? false) && !Victim.InMentalState && !Victim.Downed)
                         {
-                            var victimMeleeSkill = Victim.skills.GetSkill(SkillDefOf.Melee).Level;
-                            var wardenMeleeSkill = pawn.skills.GetSkill(SkillDefOf.Melee).Level;
+                            var victimMeleeSkill = Victim.skills?.GetSkill(SkillDefOf.Melee)?.Level ?? 0;
+                            var wardenMeleeSkill = pawn.skills?.GetSkill(SkillDefOf.Melee)?.Level ?? 0;
                             if (victimMeleeSkill > wardenMeleeSkill)
                             {
                                 var chance = (victimMeleeSkill / 20f) - (wardenMeleeSkill / 20f);
@@ -66,12 +66,12 @@ namespace FriendsByForce
                         if (success)
                         {
                             slaveComp.EnslaveWith(slaveCollar, pawn);
-                            Messages.Message("EnslavedPrisonerSuccess".Translate(pawn.Name.ToStringShort, Victim.Name.ToStringShort), MessageTypeDefOf.PositiveEvent); //Z- NameStringShort -> Name.ToStringShort
+                            Messages.Message("FBF.EnslavedPrisoner".Translate(pawn.Named("PAWN"), Victim.Named("SLAVE")), MessageTypeDefOf.PositiveEvent);
                             AddEndCondition(() => JobCondition.Succeeded);
                         }
                         else
                         {
-                            Victim.mindState.mentalStateHandler.TryStartMentalState(MentalStateDefOf.Berserk, "ReasonFailedEnslave".Translate(pawn.Name.ToStringShort, Victim.Name.ToStringShort)); //Z- NameStringShort -> Name.ToStringShort
+                            Victim.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Berserk, "FBF.FailedToEnslave".Translate(pawn.Named("PAWN"), Victim.Named("SLAVE")));
                             AddEndCondition(() => JobCondition.Incompletable);
                         }
                     }

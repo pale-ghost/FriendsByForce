@@ -67,7 +67,7 @@ namespace FriendsByForce
 	{
         public static void Prefix(Pawn pawn, out bool __state)
         {
-            if (pawn.IsSlave())
+            if (pawn.IsSlave() && pawn.Faction != Faction.OfPlayer)
             {
                 pawn.SetFaction(Faction.OfPlayer);
                 __state = true;
@@ -84,7 +84,7 @@ namespace FriendsByForce
                 if (pawn.IsSlave(out CompEnslavement comp) && __result.targetA.Thing != null && __result.targetA.Thing.IsSlaveCollar() && pawn.HasSlaveCollar())
                 {
                     __result = null;
-                    if (__state)
+                    if (__state && comp.previousFaction != pawn.Faction)
                     {
                         pawn.SetFaction(comp.previousFaction);
                     }
@@ -102,7 +102,7 @@ namespace FriendsByForce
     {
         private static void Postfix(Pawn __instance, ref bool __result)
         {
-            if (!__result && __instance.IsSlave())
+            if (!__result && __instance.RaceProps.Humanlike && __instance.IsSlave())
             {
                 __result = true;
             }
@@ -114,7 +114,7 @@ namespace FriendsByForce
     {
         private static void Postfix(Pawn __instance, ref bool __result)
         {
-            if (__result && __instance.IsSlave())
+            if (__result && __instance.RaceProps.Humanlike && __instance.IsSlave())
             {
                 __result = false;
             }
