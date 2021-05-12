@@ -167,5 +167,84 @@ namespace FriendsByForce
             }
         }
     }
+
+    [HarmonyPatch(typeof(ReservationManager), "CanReserve")]
+    public static class Patch_CanReserve
+    {
+        private static void Postfix(ref bool __result, Pawn claimant, LocalTargetInfo target, int maxPawns = 1, int stackCount = -1, ReservationLayerDef layer = null, bool ignoreOtherReservations = false)
+        {
+            if (__result)
+            {
+                if (target.HasThing && !claimant.CanUseIt(target.Thing))
+                {
+                    __result = false;
+                }
+            }
+        }
+    }
     
+    [HarmonyPatch(typeof(ForbidUtility), "IsForbidden", new Type[] { typeof(Thing), typeof(Pawn) })]
+    public static class Patch_IsForbidden
+    {
+        private static void Postfix(ref bool __result, Thing t, Pawn pawn)
+        {
+            if (!__result)
+            {
+                if (!pawn.CanUseIt(t))
+                {
+                    __result = true;
+                }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(GenHostility), "HostileTo", new Type[]
+    {
+        typeof(Thing),
+        typeof(Thing)
+    })]
+    public static class HostileTo_Patch
+    {
+        public static void Postfix(Thing a, Thing b, ref bool __result)
+        {
+            CompEnslavement slaveComp1;
+            CompEnslavement slaveComp2;
+            if (a is Pawn pawn1 && pawn1.IsSlave(out slaveComp1))
+            {
+                if (b is Pawn pawn2 && pawn2.IsSlave(out slaveComp2))
+                {
+                    __result = slaveComp1.slaverFaction.HostileTo(slaveComp2.slaverFaction);
+                }
+                else
+                {
+                    __result = b.HostileTo(slaveComp1.slaverFaction);
+                }
+                Log.Message($"a: {a}, b: {b}, result: {__result}");
+            }
+            if (b is Pawn pawn3 && pawn3.IsSlave(out slaveComp2))
+            {
+                if (a is Pawn pawn4 && pawn4.IsSlave(out slaveComp1))
+                {
+                    __result = slaveComp2.slaverFaction.HostileTo(slaveComp1.slaverFaction);
+                }
+                else
+                {
+                    __result = a.HostileTo(slaveComp2.slaverFaction);
+                }
+                Log.Message($"a: {a}, b: {b}, result: {__result}");
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(Building_Door), "PawnCanOpen")]
+    public static class PawnCanOpen_Patch
+    {
+        public static void Postfix(Building_Door __instance, ref bool __result, Pawn p)
+        {
+            if (!__result && p.IsSlave(out var slaveComp) && __instance.Faction == slaveComp.slaverFaction)
+            {
+                __result = true;
+            }
+        }
+    }
 }

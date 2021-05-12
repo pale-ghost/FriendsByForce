@@ -21,6 +21,8 @@ namespace FriendsByForce
             {
                 human.comps.Add(new CompProperties_Enslavement());
             }
+            DefDatabase<DesignationCategoryDef>.GetNamed("Zone").AllResolvedDesignators.Add(new Designator_AreaSlaveLaborExpand());
+            DefDatabase<DesignationCategoryDef>.GetNamed("Zone").AllResolvedDesignators.Add(new Designator_AreaSlaveLaborClear());
         }
         public static bool IsSlaveCollar(this Thing thing)
         {
@@ -66,6 +68,19 @@ namespace FriendsByForce
                     return true;
             }
             return false;
+        }
+
+        public static bool CanUseIt(this Pawn pawn, Thing thing)
+        {
+            if (pawn.IsSlave(out var slaveComp))
+            {
+                var slaveLaborArea = pawn.Map?.areaManager?.Get<Area_SlaveLabor>();
+                if (slaveLaborArea != null)
+                {
+                    return slaveLaborArea[thing.PositionHeld];
+                }
+            }
+            return true;
         }
     }
 }
