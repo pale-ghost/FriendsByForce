@@ -16,7 +16,7 @@ namespace FriendsByForce
 	{
 		public override bool IsMultiselectable => true;
 
-		protected override Color NextZoneColor => ZoneColorUtility.NextGrowingZoneColor();
+		protected override Color NextZoneColor => Color.red;
 
 		public Zone_SlaveLabor()
 		{
@@ -42,7 +42,7 @@ namespace FriendsByForce
 
 		public override IEnumerable<Gizmo> GetZoneAddGizmos()
 		{
-			yield return DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_Growing_Expand>();
+			yield return DesignatorUtility.FindAllowedDesignator<Designator_ZoneAdd_SlaveLabor_Expand>();
 		}
 	}
 }

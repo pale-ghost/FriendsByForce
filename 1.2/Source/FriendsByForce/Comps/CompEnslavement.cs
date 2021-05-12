@@ -55,6 +55,7 @@ namespace FriendsByForce
             base.PostExposeData();
             Scribe_Values.Look(ref isSlave, "isSlave");
             Scribe_References.Look(ref previousFaction, "previousFaction");
+            Scribe_References.Look(ref slaverFaction, "slaverFaction");
         }
     }
 }

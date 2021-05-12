@@ -19,8 +19,8 @@ namespace FriendsByForce
 		public Designator_ZoneAdd_SlaveLabor()
 		{
 			zoneTypeToPlace = typeof(Zone_SlaveLabor);
-			defaultLabel = "SlaveLaborZone".Translate();
-			defaultDesc = "DesignatorSlaveLaborZoneDesc".Translate();
+			defaultLabel = "FBF.SlaveLaborZone".Translate();
+			defaultDesc = "FBF.DesignatorSlaveLaborZoneDesc".Translate();
 			icon = ContentFinder<Texture2D>.Get("UI/Designators/ZoneCreate_Growing");
 			hotKey = KeyBindingDefOf.Misc2;
 		}

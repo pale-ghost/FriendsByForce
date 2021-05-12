@@ -71,7 +71,8 @@ namespace FriendsByForce
                         }
                         else
                         {
-                            Victim.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Berserk, "FBF.FailedToEnslave".Translate(pawn.Named("PAWN"), Victim.Named("SLAVE")));
+                            Messages.Message("FBF.FailedToEnslave".Translate(pawn.Named("PAWN"), Victim.Named("SLAVE")), MessageTypeDefOf.ThreatSmall);
+                            Victim.mindState?.mentalStateHandler?.TryStartMentalState(MentalStateDefOf.Berserk);
                             AddEndCondition(() => JobCondition.Incompletable);
                         }
                     }

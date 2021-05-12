@@ -81,18 +81,19 @@ namespace FriendsByForce
         {
             if (__result != null)
             {
-                if (pawn.IsSlave(out CompEnslavement comp) && __result.targetA.Thing != null && __result.targetA.Thing.IsSlaveCollar() && pawn.HasSlaveCollar())
+                if (pawn.IsSlave() && __result.targetA.Thing != null && __result.targetA.Thing.IsSlaveCollar() && pawn.HasSlaveCollar())
                 {
                     __result = null;
-                    if (__state && comp.previousFaction != pawn.Faction)
-                    {
-                        pawn.SetFaction(comp.previousFaction);
-                    }
                 }
                 else if (!pawn.IsSlave() && pawn.IsColonist && __result.targetA.Thing != null && __result.targetA.Thing.IsSlaveCollar())
                 {
                     __result = null;
                 }
+            }
+
+            if (__state && pawn.IsSlave(out CompEnslavement comp) && comp.previousFaction != pawn.Faction)
+            {
+                pawn.SetFaction(comp.previousFaction);
             }
         }
 	}
@@ -145,4 +146,26 @@ namespace FriendsByForce
             return true;
         }
     }
+
+
+    [HarmonyPatch(typeof(MainTabWindow_PawnTable), "Pawns", MethodType.Getter)]
+    public static class Patch_Pawns
+    {
+        private static IEnumerable<Pawn> Postfix(IEnumerable<Pawn> __result)
+        {
+            foreach (var r in __result)
+            {
+                yield return r;
+            }
+
+            foreach (var pawn in Find.CurrentMap.mapPawns.AllPawnsSpawned)
+            {
+                if (pawn.IsSlave(out var slaveComp) && slaveComp.slaverFaction == Faction.OfPlayer)
+                {
+                    yield return pawn;
+                }
+            }
+        }
+    }
+    
 }

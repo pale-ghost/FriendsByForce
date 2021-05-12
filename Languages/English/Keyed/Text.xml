@@ -3,5 +3,6 @@
 
 	<FBF.EnslavedPrisoner>{PAWN_nameDef} has enslaved {SLAVE_nameDef}</FBF.EnslavedPrisoner>
 	<FBF.FailedToEnslave>{PAWN_nameDef} failed to enslave {SLAVE_nameDef}</FBF.FailedToEnslave>
-
+	<FBF.SlaveLaborZone>Slave labor zone</FBF.SlaveLaborZone>
+	<FBF.DesignatorSlaveLaborZoneDes>PLACEHOLDER</FBF.DesignatorSlaveLaborZoneDes>
 </LanguageData>
