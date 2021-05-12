@@ -37,6 +37,10 @@ namespace FriendsByForce
         {
             isSlave = true;
             Pawn.guest.isPrisonerInt = false;
+            if (Pawn.workSettings is null)
+            {
+                Pawn.workSettings = new Pawn_WorkSettings(Pawn);
+            }
         }
         private void GiveSlaveCollar(Apparel collar)
         {

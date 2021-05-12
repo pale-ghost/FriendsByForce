@@ -120,4 +120,29 @@ namespace FriendsByForce
             }
         }
     }
+
+    [HarmonyPatch(typeof(PawnNameColorUtility), "PawnNameColorOf")]
+    public static class Patch_PawnNameColorOf
+    {
+        private static void Postfix(ref Color __result, Pawn pawn)
+        {
+            if (pawn.RaceProps.Humanlike && pawn.IsSlave())
+            {
+                __result = Color.gray;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(ThinkNode_ConditionalNeedPercentageAbove), "Satisfied")]
+    public static class Patch_Satisfied
+    {
+        private static bool Prefix(Pawn pawn, NeedDef ___need)
+        {
+            if (___need == NeedDefOf.Joy && pawn.IsSlave())
+            {
+                return false;
+            }
+            return true;
+        }
+    }
 }
