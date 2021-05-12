@@ -49,6 +49,8 @@
     <Compile Include="FBF_DefOf.cs" />
     <Compile Include="Jobs\WorkGiver_Warden_Enslavement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Zones\Zone_SlaveLabor - Copy.cs" />
+    <Compile Include="Zones\Zone_SlaveLabor.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">

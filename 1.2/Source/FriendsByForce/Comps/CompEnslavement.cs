@@ -41,6 +41,7 @@ namespace FriendsByForce
             {
                 Pawn.workSettings = new Pawn_WorkSettings(Pawn);
             }
+            Pawn.workSettings.EnableAndInitialize();
         }
         private void GiveSlaveCollar(Apparel collar)
         {
