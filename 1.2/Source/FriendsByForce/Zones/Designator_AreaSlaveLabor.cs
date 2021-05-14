@@ -95,7 +95,7 @@ namespace FriendsByForce
         {
             defaultLabel = "FBF.ClearSlaveLaborArea".Translate();
             defaultDesc = "FBF.SlaveLaborAreaDesc".Translate();
-            icon = ContentFinder<Texture2D>.Get("FBF.SlaveLaborAreaClear", true);
+            icon = ContentFinder<Texture2D>.Get("UI/Buttons/SlaveLaborClear", true);
             soundDragSustain = SoundDefOf.Designate_DragAreaDelete;
             soundDragChanged = null;
             soundSucceeded = SoundDefOf.Designate_ZoneDelete;
@@ -108,7 +108,7 @@ namespace FriendsByForce
         {
             defaultLabel = "FBF.ExpandSlaveLaborArea".Translate();
             defaultDesc = "FBF.SlaveLaborAreaDesc".Translate();
-            icon = ContentFinder<Texture2D>.Get("FBF.SlaveLaborAreaExpand", true);
+            icon = ContentFinder<Texture2D>.Get("UI/Buttons/SlaveLaborExpand", true);
             soundDragSustain = SoundDefOf.Designate_DragAreaAdd;
             soundDragChanged = null;
             soundSucceeded = SoundDefOf.Designate_ZoneAdd;

@@ -50,7 +50,7 @@ namespace FriendsByForce
                         bool success = true;
                         var slaveComp = Utils.GetCachedSlaveComp(Victim);
 
-                        if ((!Victim.jobs?.curDriver?.asleep ?? false) && (!Victim.story?.traits?.HasTrait(TraitDef.Named("Wimp")) ?? false) && !Victim.InMentalState && !Victim.Downed)
+                        if ((!Victim.jobs?.curDriver?.asleep ?? false) && (!Victim.story?.traits?.HasTrait(FBF_DefOf.Wimp) ?? false) && !Victim.InMentalState && !Victim.Downed)
                         {
                             var victimMeleeSkill = Victim.skills?.GetSkill(SkillDefOf.Melee)?.Level ?? 0;
                             var wardenMeleeSkill = pawn.skills?.GetSkill(SkillDefOf.Melee)?.Level ?? 0;

@@ -18,5 +18,10 @@ namespace FriendsByForce
         public static PrisonerInteractionModeDef FBF_EnslaveInteractionMode;
         public static ThingDef FBF_RopeCollar;
         public static JobDef FBF_EnslavePrisoner;
+        public static TraitDef Wimp;
+        public static TraitDef Masochist;
+        public static JobDef FBF_BeatSlave;
+        public static JobDef FBF_StandAndAcceptBeating;
+        public static ThoughtDef FBF_WasBeaten;
     }
 }

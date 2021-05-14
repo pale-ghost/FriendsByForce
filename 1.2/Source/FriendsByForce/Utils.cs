@@ -58,14 +58,20 @@ namespace FriendsByForce
             return false;
         }
 
-        public static bool HasSlaveCollar(this Pawn pawn)
+        public static bool HasSlaveCollar(this Pawn pawn, out Apparel slaveCollar)
         {
+            slaveCollar = null;
             if (pawn.apparel == null)
+            {
                 return false;
+            }
             foreach (Apparel item in pawn.apparel.WornApparel)
             {
                 if (IsSlaveCollar(item))
+                {
+                    slaveCollar = item;
                     return true;
+                }
             }
             return false;
         }

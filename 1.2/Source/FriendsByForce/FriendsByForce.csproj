@@ -42,7 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comps\CompEnslavement.cs" />
+    <Compile Include="Jobs\JobDriver_BeatSlave.cs" />
     <Compile Include="Jobs\JobDriver_EnslavePrisoner.cs" />
+    <Compile Include="Jobs\JobDriver_StandAndTakeBeating.cs" />
+    <Compile Include="Jobs\WorkGiver_Warden_BeatSlave.cs" />
+    <Compile Include="Thoughts\ThoughtWorker_Enslaved.cs" />
+    <Compile Include="Thoughts\Thought_WasBeaten.cs" />
+    <Compile Include="Thoughts\Thought_Enslaved.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="HarmonyPatches\Pawn_Patches.cs" />
     <Compile Include="HarmonyPatches\HarmonyInit.cs" />

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<WorkGiverDef>
+		<defName>FBF_Enslavement</defName>
+		<label>enslave prisoners</label>
+		<giverClass>FriendsByForce.WorkGiver_Warden_Enslavement</giverClass>
+		<workType>Warden</workType>
+		<verb>enslave</verb>
+		<gerund>enslaving</gerund>
+		<priorityInType>105</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
+	<WorkGiverDef>
+		<defName>FBF_BeatSlave</defName>
+		<label>beat slave</label>
+		<giverClass>FriendsByForce.WorkGiver_Warden_BeatSlave</giverClass>
+		<workType>Warden</workType>
+		<verb>beat</verb>
+		<gerund>beating</gerund>
+		<priorityInType>110</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+
+</Defs>

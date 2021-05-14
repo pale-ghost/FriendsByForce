@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ThoughtDef>
+		<defName>FBF_Enslaved</defName>
+		<thoughtClass>FriendsByForce.Thought_Enslaved</thoughtClass>
+		<workerClass>FriendsByForce.ThoughtWorker_Enslaved</workerClass>
+		<stages>
+			<li>
+				<label>Enslaved</label>
+				<description>PLACEHOLDER</description>
+			</li>
+			<li>
+				<label>Obedient Slave</label>
+				<description>PLACEHOLDER</description>
+			</li>
+		</stages>
+	</ThoughtDef>
+
+
+</Defs>

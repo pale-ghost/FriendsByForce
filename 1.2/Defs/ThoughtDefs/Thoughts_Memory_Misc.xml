@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThoughtDef>
+    <defName>FBF_WasBeaten</defName>
+    <durationDays>15</durationDays>
+    <stackLimit>1</stackLimit>
+	<thoughtClass>FriendsByForce.Thought_WasBeaten</thoughtClass>
+    <stages>
+      <li>
+        <label>Was beaten</label>
+        <description>was beaten...</description>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+
+</Defs>

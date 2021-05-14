@@ -45,7 +45,7 @@ namespace FriendsByForce
     {
         private static bool Prefix(ref float __result, Pawn pawn, Apparel ap, List<float> wornScoresCache)
         {
-            if (pawn.IsSlave() && ap != null && ap.IsSlaveCollar() && pawn.HasSlaveCollar())
+            if (pawn.IsSlave() && ap != null && ap.IsSlaveCollar() && pawn.HasSlaveCollar(out var collar))
             {
                 __result = -1000f;
                 return false;
@@ -81,7 +81,7 @@ namespace FriendsByForce
         {
             if (__result != null)
             {
-                if (pawn.IsSlave() && __result.targetA.Thing != null && __result.targetA.Thing.IsSlaveCollar() && pawn.HasSlaveCollar())
+                if (pawn.IsSlave() && __result.targetA.Thing != null && __result.targetA.Thing.IsSlaveCollar() && pawn.HasSlaveCollar(out var collar))
                 {
                     __result = null;
                 }
@@ -219,7 +219,6 @@ namespace FriendsByForce
                 {
                     __result = b.HostileTo(slaveComp1.slaverFaction);
                 }
-                Log.Message($"a: {a}, b: {b}, result: {__result}");
             }
             if (b is Pawn pawn3 && pawn3.IsSlave(out slaveComp2))
             {
@@ -231,7 +230,6 @@ namespace FriendsByForce
                 {
                     __result = a.HostileTo(slaveComp2.slaverFaction);
                 }
-                Log.Message($"a: {a}, b: {b}, result: {__result}");
             }
         }
     }
@@ -244,6 +242,31 @@ namespace FriendsByForce
             if (!__result && p.IsSlave(out var slaveComp) && __instance.Faction == slaveComp.slaverFaction)
             {
                 __result = true;
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(Pawn), "GetGizmos")]
+    public class Pawn_GetGizmos_Patch
+    {
+        public static IEnumerable<Gizmo> Postfix(IEnumerable<Gizmo> __result, Pawn __instance)
+        {
+            foreach (var g in __result)
+            {
+                yield return g;
+            }
+            if (__instance.IsSlave(out var slaveComp) && slaveComp.slaverFaction == Faction.OfPlayer)
+            {
+                yield return new Command_Toggle
+                {
+                    defaultLabel = "FBF.MarkForBeating".Translate(),
+                    defaultDesc = "FBF.MarkForBeatingDesc".Translate(),
+                    isActive = () => slaveComp.markedForBeating,
+                    toggleAction = delegate
+                    {
+                        slaveComp.markedForBeating = !slaveComp.markedForBeating;
+                    }
+                };
             }
         }
     }

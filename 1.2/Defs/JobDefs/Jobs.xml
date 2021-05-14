@@ -6,4 +6,20 @@
 		<reportString>enslaving TargetA.</reportString>
 	</JobDef>
 
+	<JobDef>
+		<defName>FBF_BeatSlave</defName>
+		<driverClass>FriendsByForce.JobDriver_BeatSlave</driverClass>
+		<reportString>beating TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
+		<alwaysShowWeapon>true</alwaysShowWeapon>
+	</JobDef>
+
+	<JobDef>
+		<defName>FBF_StandAndAcceptBeating</defName>
+		<driverClass>FriendsByForce.JobDriver_StandAndTakeBeating</driverClass>
+		<reportString>taking beating.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
+	</JobDef>
 </Defs>
