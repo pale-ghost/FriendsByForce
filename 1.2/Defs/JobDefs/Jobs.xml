@@ -22,4 +22,11 @@
 		<casualInterruptible>false</casualInterruptible>
 		<checkOverrideOnDamage>OnlyIfInstigatorNotJobTarget</checkOverrideOnDamage>
 	</JobDef>
+	
+	<JobDef>
+		<defName>FBF_EmancipateSlave</defName>
+		<driverClass>FriendsByForce.JobDriver_EmancipateSlave</driverClass>
+		<reportString>emancipating TargetA.</reportString>
+		<casualInterruptible>false</casualInterruptible>
+	</JobDef>
 </Defs>

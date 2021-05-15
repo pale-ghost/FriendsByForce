@@ -277,6 +277,26 @@ namespace FriendsByForce
                         action = delegate { slaveComp.markedForBeating = true; }
                     };
                 }
+                if (slaveComp.markedForEmancipation)
+                {
+                    yield return new Command_Action
+                    {
+                        defaultLabel = "FBF.MarkForEmancipation".Translate(),
+                        defaultDesc = "FBF.MarkForEmancipationDesc".Translate(),
+                        //icon = ContentFinder<Texture2D>.Get("UI/Buttons/EmancipationEnabled"),
+                        action = delegate { slaveComp.markedForEmancipation = false; }
+                    };
+                }
+                else
+                {
+                    yield return new Command_Action
+                    {
+                        defaultLabel = "FBF.MarkForEmancipation".Translate(),
+                        defaultDesc = "FBF.MarkForEmancipationDesc".Translate(),
+                        //icon = ContentFinder<Texture2D>.Get("UI/Buttons/EmancipationDisabled"),
+                        action = delegate { slaveComp.markedForEmancipation = true; }
+                    };
+                }
 
             }
         }

@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comps\CompEnslavement.cs" />
+    <Compile Include="Jobs\JobDriver_EmancipateSlave.cs" />
     <Compile Include="Jobs\JobDriver_BeatSlave.cs" />
     <Compile Include="Jobs\JobDriver_EnslavePrisoner.cs" />
     <Compile Include="Jobs\JobGiver_TryToEscape.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Jobs\ThinkNode_Conditional_CanDoEscapeAttempt.cs" />
     <Compile Include="Jobs\WorkGiver_Warden_BeatSlave.cs" />
     <Compile Include="Jobs\ThinkNode_ConditionalSlave.cs" />
+    <Compile Include="Jobs\WorkGiver_Warden_Emancipate.cs" />
     <Compile Include="Thoughts\ThoughtWorker_Enslaved.cs" />
     <Compile Include="Thoughts\Thought_WasBeaten.cs" />
     <Compile Include="Thoughts\Thought_Enslaved.cs" />

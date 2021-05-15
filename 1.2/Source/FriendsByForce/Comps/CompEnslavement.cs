@@ -23,6 +23,7 @@ namespace FriendsByForce
 
     public class CompEnslavement : ThingComp
     {
+        public static HashSet<Pawn> slaves = new HashSet<Pawn>();
         public Pawn Pawn => this.parent as Pawn;
         public override void PostSpawnSetup(bool respawningAfterLoad)
         {
@@ -33,6 +34,7 @@ namespace FriendsByForce
                 willpower = GetInitialWillpower();
                 maxWillpower = willpower;
             }
+            slaves.Add(Pawn);
         }
 
         private float GetInitialWillpower()
@@ -142,43 +144,118 @@ namespace FriendsByForce
             thought.beatingCount = moodOffset;
             Pawn.needs?.mood?.thoughts?.memories?.TryGainMemory(thought);
         }
+
+        public void Emancipate(Pawn emancipator)
+        {
+            this.isSlave = false;
+            var moodLevel = Pawn.needs.mood.CurLevelPercentage;
+            var beatingCount = BeatingCount();
+            if (beatingCount > 0)
+            {
+                moodLevel -= beatingCount * 0.05f;
+            }
+            if (Pawn.HasSlaveCollar(out Apparel slaveCollar))
+            {
+                Pawn.apparel.TryDrop(slaveCollar);
+            }
+            Log.Message("CHANCE: " + moodLevel);
+            if (Rand.Chance(moodLevel))
+            {
+                previousFaction = emancipator.Faction;
+                slaverFaction = null;
+                Pawn.SetFaction(emancipator.Faction);
+                if (Pawn.Faction == Faction.OfPlayer)
+                {
+                    Find.LetterStack.ReceiveLetter("FBF.Emancipated".Translate(Pawn.Named("PAWN"), emancipator.Named("WARDEN")), "FBF.EmancipatedJoinedDesc".Translate(Pawn.Named("PAWN"), 
+                        emancipator.Named("WARDEN")), LetterDefOf.PositiveEvent, Pawn);
+                }
+            }
+            else
+            {
+                Job leaveJob = Utils.EscapeJob(Pawn, false, false, false, false, false);
+                Pawn.SetFaction(null);
+                Pawn.jobs.TryTakeOrderedJob(leaveJob);
+                if (emancipator.Faction == Faction.OfPlayer)
+                {
+                    Find.LetterStack.ReceiveLetter("FBF.Emancipated".Translate(Pawn.Named("PAWN"), emancipator.Named("WARDEN")), "FBF.FreedBySlaverLeftColonyDesc".Translate(Pawn.Named("PAWN"),
+                        emancipator.Named("WARDEN")), LetterDefOf.NeutralEvent, Pawn);
+                }
+            }
+        }
+
+        private int BeatingCount()
+        {
+            var thought = Pawn.needs.mood.thoughts.memories.GetFirstMemoryOfDef(FBF_DefOf.FBF_WasBeaten) as Thought_WasBeaten;
+            if (thought != null)
+            {
+                return thought.beatingCount;
+            }
+            return 0;
+        }
         public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
         {
             foreach (var opt in base.CompFloatMenuOptions(selPawn))
             {
                 yield return opt;
             }
-            if (selPawn.Faction == Faction.OfPlayer && this.isSlave && markedForBeating)
+            if (selPawn.Faction == Faction.OfPlayer && this.isSlave)
             {
-                if (!selPawn.CanReach(parent, PathEndMode.Touch, Danger.Deadly))
+                if (markedForBeating)
                 {
-                    yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "NoPath".Translate() + ")", null);
-                }
-                else if (!selPawn.CanReserve(parent))
-                {
-                    yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "Reserved".Translate() + ")", null);
-                }
-                else if (!selPawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
-                {
-                    yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "Incapable".Translate() + ")", null);
-                }
-                else if (Find.TickManager.TicksGame > lastBeatenTick + BeatingCooldown)
-                {
-                    yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "FBF.TooRecentlyBeaten".Translate() + ")", null);
-                }
-                else if (Pawn.health.summaryHealth.SummaryHealthPercent < LowHealthStopBeating)
-                {
-                    yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "FBF.TooInjured".Translate() + ")", null);
-                }
-                else
-                {
-                    yield return new FloatMenuOption("FBF.Beat".Translate(), delegate
+                    if (!selPawn.CanReach(parent, PathEndMode.Touch, Danger.Deadly))
                     {
-                        Job beatSlave = JobMaker.MakeJob(FBF_DefOf.FBF_BeatSlave, Pawn);
-                        beatSlave.maxNumMeleeAttacks = Rand.RangeInclusive(3, 5);
-                        beatSlave.locomotionUrgency = LocomotionUrgency.Jog;
-                        selPawn.jobs.TryTakeOrderedJob(beatSlave);
-                    });
+                        yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "NoPath".Translate() + ")", null);
+                    }
+                    else if (!selPawn.CanReserve(parent))
+                    {
+                        yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "Reserved".Translate() + ")", null);
+                    }
+                    else if (!selPawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+                    {
+                        yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "Incapable".Translate() + ")", null);
+                    }
+                    else if (Find.TickManager.TicksGame > lastBeatenTick + BeatingCooldown)
+                    {
+                        yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "FBF.TooRecentlyBeaten".Translate() + ")", null);
+                    }
+                    else if (Pawn.health.summaryHealth.SummaryHealthPercent < LowHealthStopBeating)
+                    {
+                        yield return new FloatMenuOption("FBF.Beat".Translate() + " (" + "FBF.TooInjured".Translate() + ")", null);
+                    }
+                    else
+                    {
+                        yield return new FloatMenuOption("FBF.Beat".Translate(), delegate
+                        {
+                            Job beatSlave = JobMaker.MakeJob(FBF_DefOf.FBF_BeatSlave, Pawn);
+                            beatSlave.maxNumMeleeAttacks = Rand.RangeInclusive(3, 5);
+                            beatSlave.locomotionUrgency = LocomotionUrgency.Jog;
+                            selPawn.jobs.TryTakeOrderedJob(beatSlave);
+                        });
+                    }
+                }
+
+                if (markedForEmancipation)
+                {
+                    if (!selPawn.CanReach(parent, PathEndMode.Touch, Danger.Deadly))
+                    {
+                        yield return new FloatMenuOption("FBF.Emancipate".Translate() + " (" + "NoPath".Translate() + ")", null);
+                    }
+                    else if (!selPawn.CanReserve(parent))
+                    {
+                        yield return new FloatMenuOption("FBF.Emancipate".Translate() + " (" + "Reserved".Translate() + ")", null);
+                    }
+                    else if (!selPawn.health.capacities.CapableOf(PawnCapacityDefOf.Manipulation))
+                    {
+                        yield return new FloatMenuOption("FBF.Emancipate".Translate() + " (" + "Incapable".Translate() + ")", null);
+                    }
+                    else
+                    {
+                        yield return new FloatMenuOption("FBF.Emancipate".Translate(), delegate
+                        {
+                            Job emancipateSlave = JobMaker.MakeJob(FBF_DefOf.FBF_EmancipateSlave, Pawn);
+                            selPawn.jobs.TryTakeOrderedJob(emancipateSlave);
+                        });
+                    }
                 }
             }
         }
@@ -194,6 +271,7 @@ namespace FriendsByForce
             Scribe_Values.Look(ref isInitialized, "isInitialized");
             Scribe_Values.Look(ref nextWillpowerTick, "nextTick");
             Scribe_Values.Look(ref markedForBeating, "markedForBeating");
+            Scribe_Values.Look(ref markedForEmancipation, "markedForEmancipation");
             Scribe_Values.Look(ref lastBeatenTick, "lastBeatenTick");
             Scribe_Values.Look(ref lastEscapeAttemptTick, "lastEscapeAttemptTick");
         }
@@ -206,6 +284,7 @@ namespace FriendsByForce
         private bool isInitialized;
         private int nextWillpowerTick;
         public bool markedForBeating;
+        public bool markedForEmancipation;
         public int lastBeatenTick;
         public int lastEscapeAttemptTick;
     }

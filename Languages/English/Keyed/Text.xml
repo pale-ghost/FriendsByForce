@@ -10,4 +10,8 @@
 	<FBF.Beat>Punish</FBF.Beat>
 	<FBF.TooRecentlyBeaten>Beaten too recently</FBF.TooRecentlyBeaten>
 	<FBF.TooInjured>Too injured</FBF.TooInjured>
+	<FBF.Emancipate>Emancipate</FBF.Emancipate>
+	<FBF.Emancipated>Slave Freed</FBF.Emancipated>
+	<FBF.EmancipatedJoinedDesc>{WARDEN_nameDef} has freed {PAWN_nameDef}. {PAWN_pronoun} doesn't have anywhere else to go, and decides to join your colony.</FBF.EmancipatedJoinedDesc>
+	<FBF.FreedBySlaverLeftColonyDesc>{WARDEN_nameDef} has freed {PAWN_nameDef}. {PAWN_pronoun} cannot believe {PAWN_possessive} luck and makes a run for freedom.</FBF.FreedBySlaverLeftColonyDesc>
 </LanguageData>

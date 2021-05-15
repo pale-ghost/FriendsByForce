@@ -26,5 +26,18 @@
 			<li>Manipulation</li>
 		</requiredCapacities>
 	</WorkGiverDef>
-
+	
+	<WorkGiverDef>
+		<defName>FBF_EmancipateSlave</defName>
+		<label>emancipate slave</label>
+		<giverClass>FriendsByForce.WorkGiver_Warden_Emancipate</giverClass>
+		<workType>Warden</workType>
+		<verb>emancipate</verb>
+		<gerund>emancipating</gerund>
+		<priorityInType>110</priorityInType>
+		<requiredCapacities>
+			<li>Manipulation</li>
+		</requiredCapacities>
+	</WorkGiverDef>
+	
 </Defs>

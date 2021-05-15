@@ -15,6 +15,17 @@ namespace FriendsByForce
 {
     public class WorkGiver_Warden_BeatSlave : WorkGiver_Warden
     {
+        public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
+        {
+            foreach (var slave in CompEnslavement.slaves)
+            {
+                if (slave.Map == pawn.Map)
+                {
+                    yield return slave;
+                }
+            }
+        }
+        public override PathEndMode PathEndMode => PathEndMode.ClosestTouch;
         public override Job JobOnThing(Pawn pawn, Thing target, bool forced = false)
         {
             if (!ShouldTakeCareOfPrisoner_NewTemp(pawn, target, forced))
