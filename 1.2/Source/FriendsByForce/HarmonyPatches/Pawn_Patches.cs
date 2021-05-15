@@ -257,16 +257,27 @@ namespace FriendsByForce
             }
             if (__instance.IsSlave(out var slaveComp) && slaveComp.slaverFaction == Faction.OfPlayer)
             {
-                yield return new Command_Toggle
+                if (slaveComp.markedForBeating)
                 {
-                    defaultLabel = "FBF.MarkForBeating".Translate(),
-                    defaultDesc = "FBF.MarkForBeatingDesc".Translate(),
-                    isActive = () => slaveComp.markedForBeating,
-                    toggleAction = delegate
+                    yield return new Command_Action
                     {
-                        slaveComp.markedForBeating = !slaveComp.markedForBeating;
-                    }
-                };
+                        defaultLabel = "FBF.MarkForPunishing".Translate(),
+                        defaultDesc = "FBF.MarkForPunishingDesc".Translate(),
+                        icon = ContentFinder<Texture2D>.Get("UI/Buttons/PunishEnabled"),
+                        action = delegate { slaveComp.markedForBeating = false; }
+                    };
+                }
+                else
+                {
+                    yield return new Command_Action
+                    {
+                        defaultLabel = "FBF.MarkForPunishing".Translate(),
+                        defaultDesc = "FBF.MarkForPunishingDesc".Translate(),
+                        icon = ContentFinder<Texture2D>.Get("UI/Buttons/PunishDisabled"),
+                        action = delegate { slaveComp.markedForBeating = true; }
+                    };
+                }
+
             }
         }
     }

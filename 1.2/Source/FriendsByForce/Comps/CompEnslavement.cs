@@ -108,6 +108,13 @@ namespace FriendsByForce
             Pawn.workSettings.EnableAndInitialize();
             nextWillpowerTick = Find.TickManager.TicksGame + 60000;
         }
+
+        public void EscapeFromSlavers()
+        {
+            isSlave = false;
+            Pawn.guest.everParticipatedInPrisonBreak = true;
+            Pawn.guest.lastPrisonBreakTicks = Find.TickManager.TicksGame;
+        }
         private void GiveSlaveCollar(Apparel collar)
         {
             Pawn.apparel.Wear(collar, true);
@@ -134,19 +141,6 @@ namespace FriendsByForce
             var thought = (Thought_WasBeaten)ThoughtMaker.MakeThought(FBF_DefOf.FBF_WasBeaten);
             thought.beatingCount = moodOffset;
             Pawn.needs?.mood?.thoughts?.memories?.TryGainMemory(thought);
-        }
-
-        public void TryDamageSlaveCollar()
-        {
-            if (Pawn.HasSlaveCollar(out Apparel slaveCollar))
-            {
-                slaveCollar.HitPoints -= (int)(slaveCollar.MaxHitPoints / 10f);
-                if (slaveCollar.HitPoints <= 0)
-                {
-                    slaveCollar.Destroy();
-                    // TODO implement slave escaping if they don't escape
-                }
-            }
         }
         public override IEnumerable<FloatMenuOption> CompFloatMenuOptions(Pawn selPawn)
         {
@@ -182,11 +176,13 @@ namespace FriendsByForce
                     {
                         Job beatSlave = JobMaker.MakeJob(FBF_DefOf.FBF_BeatSlave, Pawn);
                         beatSlave.maxNumMeleeAttacks = Rand.RangeInclusive(3, 5);
+                        beatSlave.locomotionUrgency = LocomotionUrgency.Jog;
                         selPawn.jobs.TryTakeOrderedJob(beatSlave);
                     });
                 }
             }
         }
+
         public override void PostExposeData()
         {
             base.PostExposeData();
@@ -199,6 +195,7 @@ namespace FriendsByForce
             Scribe_Values.Look(ref nextWillpowerTick, "nextTick");
             Scribe_Values.Look(ref markedForBeating, "markedForBeating");
             Scribe_Values.Look(ref lastBeatenTick, "lastBeatenTick");
+            Scribe_Values.Look(ref lastEscapeAttemptTick, "lastEscapeAttemptTick");
         }
 
         public bool isSlave;
@@ -210,5 +207,6 @@ namespace FriendsByForce
         private int nextWillpowerTick;
         public bool markedForBeating;
         public int lastBeatenTick;
+        public int lastEscapeAttemptTick;
     }
 }

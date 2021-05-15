@@ -25,6 +25,7 @@ namespace FriendsByForce
             {
                 Job beatSlave = JobMaker.MakeJob(FBF_DefOf.FBF_BeatSlave, target);
                 beatSlave.maxNumMeleeAttacks = Rand.RangeInclusive(3, 5);
+                beatSlave.locomotionUrgency = LocomotionUrgency.Jog;
                 return beatSlave;
             }
             return null;

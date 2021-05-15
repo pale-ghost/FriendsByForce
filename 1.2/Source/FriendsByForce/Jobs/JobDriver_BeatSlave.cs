@@ -24,7 +24,7 @@ namespace FriendsByForce
         protected override IEnumerable<Toil> MakeNewToils()
         {
             Log.Message(" - MakeNewToils - this.FailOn(() => !Victim.IsSlave()); - 1", true);
-            this.FailOn(() => !Victim.IsSlave());
+            this.FailOn(() => !Victim.IsSlave(out var slaveComp) || !slaveComp.markedForBeating);
             yield return GotoSlave(pawn, Victim);
             yield return Toils_Misc.ThrowColonistAttackingMote(TargetIndex.A);
             yield return Toils_Combat.FollowAndMeleeAttack(TargetIndex.A, delegate
@@ -42,7 +42,19 @@ namespace FriendsByForce
                 else if (pawn.meleeVerbs.TryMeleeAttack(thing, job.verbToUse) && pawn.CurJob != null && pawn.jobs.curDriver == this)
                 {
                     var slaveComp = Utils.GetCachedSlaveComp(Victim);
-                    slaveComp.TryDamageSlaveCollar();
+                    if (Victim.HasSlaveCollar(out var slaveCollar))
+                    {
+                        slaveCollar.Damage(0.1f);
+                        if (slaveCollar.DestroyedOrNull())
+                        {
+                            var escapeJob = Utils.EscapeJob(Victim, false, false, true, true, true);
+                            if (escapeJob != null)
+                            {
+                                Victim.jobs.TryTakeOrderedJob(escapeJob);
+                                EndJobWith(JobCondition.InterruptForced);
+                            }
+                        }
+                    }
                     if (Victim.health.summaryHealth.SummaryHealthPercent < CompEnslavement.LowHealthStopBeating)
                     {
                         slaveComp.DoBeatingOutcome();

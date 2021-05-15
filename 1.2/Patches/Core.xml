@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Patch>
-	<!--
-	<Operation Class="PatchOperationSequence">
-		<operations>
-			<li Class="PatchOperationAdd">
-				<xpath>/Defs/DesignationCategoryDef[defName = "Zone"]/specialDesignatorClasses</xpath>
-				<value>
-					<li>FriendsByForce.Designator_ZoneAdd_SlaveLabor</li>
-				</value>
+
+	<Operation Class="PatchOperationInsert">
+		<xpath>Defs/ThinkTreeDef[defName = "Humanlike"]/thinkRoot/subNodes/li[@Class = "ThinkNode_ConditionalPrisoner"]</xpath>
+		<order>Prepend</order>
+		<value>
+			<li Class="FriendsByForce.ThinkNode_ConditionalSlave">
+				<subNodes>
+					<li Class="FriendsByForce.ThinkNode_Conditional_CanDoEscapeAttempt">
+						<mtbHours>6</mtbHours>
+						<subNodes>
+							<li Class="FriendsByForce.JobGiver_TryToEscape"/>
+						</subNodes>
+					</li>
+				</subNodes>
 			</li>
-		</operations>
+		</value>
 	</Operation>
--->
 
 </Patch>
