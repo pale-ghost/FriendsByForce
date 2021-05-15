@@ -18,7 +18,7 @@ namespace FriendsByForce
         public Pawn Slave => job.targetA.Pawn;
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            return true;
+            return pawn.Reserve(Slave, job);
         }
         protected override IEnumerable<Toil> MakeNewToils()
         {

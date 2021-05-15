@@ -13,7 +13,7 @@ using Verse.AI;
 
 namespace FriendsByForce
 {
-    public class WorkGiver_Warden_BeatSlave : WorkGiver_Warden
+    public class WorkGiver_Warden_BeatSlave : WorkGiver_Scanner
     {
         public override IEnumerable<Thing> PotentialWorkThingsGlobal(Pawn pawn)
         {
@@ -28,10 +28,6 @@ namespace FriendsByForce
         public override PathEndMode PathEndMode => PathEndMode.ClosestTouch;
         public override Job JobOnThing(Pawn pawn, Thing target, bool forced = false)
         {
-            if (!ShouldTakeCareOfPrisoner_NewTemp(pawn, target, forced))
-            {
-                return null;
-            }
             if (target is Pawn victim && victim.IsSlave(out var slaveComp) && slaveComp.CanBeBeaten && pawn.CanReach(victim, PathEndMode.ClosestTouch, Danger.Deadly))
             {
                 Job beatSlave = JobMaker.MakeJob(FBF_DefOf.FBF_BeatSlave, target);
