@@ -14,5 +14,9 @@
 	<FBF.EmancipatedJoinedDesc>{WARDEN_nameDef} has freed {PAWN_nameDef}. {PAWN_pronoun} doesn't have anywhere else to go, and decides to join your colony.</FBF.EmancipatedJoinedDesc>
 	<FBF.FreedBySlaverLeftColonyDesc>{WARDEN_nameDef} has freed {PAWN_nameDef}. {PAWN_pronoun} cannot believe {PAWN_possessive} luck and makes a run for freedom.</FBF.FreedBySlaverLeftColonyDesc>
 	<FBF.ClearSlaveLaborArea>Shrink Slave Labor Zone</FBF.ClearSlaveLaborArea>
+	<FBF.ClearSlaveLaborAreaDesc>Remove zone using selected terrian where your slaves will be able to work.</FBF.ClearSlaveLaborAreaDesc>
 	<FBF.ExpandSlaveLaborArea>Expand Slave Labor Zone</FBF.ExpandSlaveLaborArea>
+	<FBF.ExpandSlaveLaborAreaDesc>Create a zone, using selected terrian, where your slaves will be able to work.</FBF.ExpandSlaveLaborAreaDesc>
+	<FBF.SlaveDamagedCollar>{PAWN_nameDef} has damaged {PAWN_possessive} collar in an escape attempt!</FBF.SlaveDamagedCollar>
+	
 </LanguageData>
