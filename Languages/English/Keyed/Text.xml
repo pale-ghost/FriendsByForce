@@ -4,9 +4,8 @@
 	<FBF.EnslavedPrisoner>{PAWN_nameDef} has enslaved {SLAVE_nameDef}</FBF.EnslavedPrisoner>
 	<FBF.FailedToEnslave>{PAWN_nameDef} failed to enslave {SLAVE_nameDef}</FBF.FailedToEnslave>
 	<FBF.SlaveLaborZone>Slave labor zone</FBF.SlaveLaborZone>
-	<FBF.DesignatorSlaveLaborZoneDes>PLACEHOLDER</FBF.DesignatorSlaveLaborZoneDes>
 	<FBF.MarkForPunishing>Punish</FBF.MarkForPunishing>
-	<FBF.MarkForPunishing>PLACEHOLDER</FBF.MarkForPunishing>
+	<FBF.MarkForPunishing>Mark for Punishing</FBF.MarkForPunishing>
 	<FBF.Beat>Punish</FBF.Beat>
 	<FBF.TooRecentlyBeaten>Beaten too recently</FBF.TooRecentlyBeaten>
 	<FBF.TooInjured>Too injured</FBF.TooInjured>
@@ -14,4 +13,6 @@
 	<FBF.Emancipated>Slave Freed</FBF.Emancipated>
 	<FBF.EmancipatedJoinedDesc>{WARDEN_nameDef} has freed {PAWN_nameDef}. {PAWN_pronoun} doesn't have anywhere else to go, and decides to join your colony.</FBF.EmancipatedJoinedDesc>
 	<FBF.FreedBySlaverLeftColonyDesc>{WARDEN_nameDef} has freed {PAWN_nameDef}. {PAWN_pronoun} cannot believe {PAWN_possessive} luck and makes a run for freedom.</FBF.FreedBySlaverLeftColonyDesc>
+	<FBF.ClearSlaveLaborArea>Shrink Slave Labor Zone</FBF.ClearSlaveLaborArea>
+	<FBF.ExpandSlaveLaborArea>Expand Slave Labor Zone</FBF.ExpandSlaveLaborArea>
 </LanguageData>

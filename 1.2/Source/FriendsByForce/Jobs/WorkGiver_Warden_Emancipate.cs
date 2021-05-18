@@ -33,7 +33,7 @@ namespace FriendsByForce
         public override PathEndMode PathEndMode => PathEndMode.ClosestTouch;
         public override Job JobOnThing(Pawn pawn, Thing t, bool forced = false)
         {
-            if (t is Pawn slave && slave.IsSlave(out var slaveComp) && slaveComp.slaverFaction == pawn.Faction && pawn.CanReserve(slave, 1, -1, null, false))
+            if (t is Pawn slave && slave.IsSlave(out var slaveComp) && slaveComp.slaverFaction == pawn.Faction && slaveComp.markedForEmancipation && pawn.CanReserve(slave, 1, -1, null, false))
             {
                 Job job = JobMaker.MakeJob(FBF_DefOf.FBF_EmancipateSlave, slave);
                 return job;

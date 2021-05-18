@@ -94,6 +94,7 @@ namespace FriendsByForce
         {
             var hitpointsToTake = (int)((hpPctToDamage / 1f) * thing.MaxHitPoints);
             thing.HitPoints -= hitpointsToTake;
+                    
             if (thing.HitPoints <= 0)
             {
                 thing.Destroy();
@@ -113,6 +114,7 @@ namespace FriendsByForce
             {
                 var manipulationLevel = pawn.health.capacities.GetLevel(PawnCapacityDefOf.Manipulation);
                 slaveCollar.Damage(0.1f * manipulationLevel);
+                Messages.Message("FBF.SlaveDamagedCollar".Translate(pawn.Named("PAWN")), pawn, MessageTypeDefOf.CautionInput);
                 if (!slaveCollar.DestroyedOrNull())
                 {
                     return null;

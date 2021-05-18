@@ -94,7 +94,7 @@ namespace FriendsByForce
         public Designator_AreaSlaveLaborClear() : base(DesignateMode.Remove)
         {
             defaultLabel = "FBF.ClearSlaveLaborArea".Translate();
-            defaultDesc = "FBF.SlaveLaborAreaDesc".Translate();
+            defaultDesc = "FBF.ClearSlaveLaborAreaDesc".Translate();
             icon = ContentFinder<Texture2D>.Get("UI/Buttons/SlaveLaborClear", true);
             soundDragSustain = SoundDefOf.Designate_DragAreaDelete;
             soundDragChanged = null;
@@ -107,7 +107,7 @@ namespace FriendsByForce
         public Designator_AreaSlaveLaborExpand() : base(DesignateMode.Add)
         {
             defaultLabel = "FBF.ExpandSlaveLaborArea".Translate();
-            defaultDesc = "FBF.SlaveLaborAreaDesc".Translate();
+            defaultDesc = "FBF.ExpandSlaveLaborAreaDesc".Translate();
             icon = ContentFinder<Texture2D>.Get("UI/Buttons/SlaveLaborExpand", true);
             soundDragSustain = SoundDefOf.Designate_DragAreaAdd;
             soundDragChanged = null;

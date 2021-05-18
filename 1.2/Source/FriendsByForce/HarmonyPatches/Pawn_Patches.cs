@@ -69,7 +69,7 @@ namespace FriendsByForce
         {
             if (pawn.IsSlave() && pawn.Faction != Faction.OfPlayer)
             {
-                pawn.SetFaction(Faction.OfPlayer);
+                pawn.SetFactionDirect(Faction.OfPlayer);
                 __state = true;
             }
             else
@@ -93,7 +93,7 @@ namespace FriendsByForce
 
             if (__state && pawn.IsSlave(out CompEnslavement comp) && comp.previousFaction != pawn.Faction)
             {
-                pawn.SetFaction(comp.previousFaction);
+                pawn.SetFactionDirect(comp.previousFaction);
             }
         }
 	}
@@ -167,6 +167,27 @@ namespace FriendsByForce
             }
         }
     }
+
+    [HarmonyPatch(typeof(CompAssignableToPawn), "AssigningCandidates", MethodType.Getter)]
+    public static class Patch_AssigningCandidates
+    {
+        private static IEnumerable<Pawn> Postfix(IEnumerable<Pawn> __result)
+        {
+            foreach (var r in __result)
+            {
+                yield return r;
+            }
+
+            foreach (var pawn in Find.CurrentMap.mapPawns.AllPawnsSpawned)
+            {
+                if (pawn.IsSlave(out var slaveComp) && slaveComp.slaverFaction == Faction.OfPlayer)
+                {
+                    yield return pawn;
+                }
+            }
+        }
+    }
+
 
     [HarmonyPatch(typeof(ReservationManager), "CanReserve")]
     public static class Patch_CanReserve

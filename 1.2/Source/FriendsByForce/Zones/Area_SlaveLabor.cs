@@ -24,7 +24,7 @@ namespace FriendsByForce
 
 		public override string Label => "FBF.SlaveLaborZone".Translate();
 
-		public override Color Color => Color.red;
+		public override Color Color => Color.gray;
 
 		public override int ListPriority => 8000;
 
