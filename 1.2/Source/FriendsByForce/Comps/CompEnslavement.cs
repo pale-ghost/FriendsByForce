@@ -99,7 +99,6 @@ namespace FriendsByForce
         {
             this.previousFaction = Pawn.Faction;
             this.slaverFaction = slaver.Faction;
-            Traverse.Create(Pawn.guest).Field("hostFactionInt").SetValue(slaver.Faction);
             Enslave();
             GiveSlaveCollar(collar);
         }
@@ -108,10 +107,28 @@ namespace FriendsByForce
             this.isSlave = true;
             slaves.Add(Pawn);
             Pawn.guest.isPrisonerInt = false;
+            Traverse.Create(Pawn.guest).Field("hostFactionInt").SetValue(null);
             if (Pawn.workSettings is null)
             {
                 Pawn.workSettings = new Pawn_WorkSettings(Pawn);
             }
+            if (Pawn.outfits == null)
+            {
+                Pawn.outfits = new Pawn_OutfitTracker(Pawn);
+            }
+            if (Pawn.playerSettings is null)
+            {
+                Pawn.playerSettings = new Pawn_PlayerSettings(Pawn);
+            }
+            if (Pawn.timetable == null)
+            {
+                Pawn.timetable = new Pawn_TimetableTracker(Pawn);
+            }
+            if (Pawn.drugs is null)
+            {
+                Pawn.drugs = new Pawn_DrugPolicyTracker(Pawn);
+            }
+
             Pawn.workSettings.EnableAndInitialize();
             nextWillpowerTick = Find.TickManager.TicksGame + 60000;
         }
@@ -121,15 +138,13 @@ namespace FriendsByForce
             this.slaverFaction = null;
             this.isSlave = false;
             slaves.Remove(Pawn);
-            Traverse.Create(Pawn.guest).Field("hostFactionInt").SetValue(null);
             Pawn.guest.everParticipatedInPrisonBreak = true;
             Pawn.guest.lastPrisonBreakTicks = Find.TickManager.TicksGame;
         }
         private void GiveSlaveCollar(Apparel collar)
         {
             Pawn.apparel.Wear(collar, true);
-            if (Pawn.outfits == null)
-                Pawn.outfits = new Pawn_OutfitTracker();
+
             Pawn.outfits.forcedHandler.SetForced(collar, true);
         }
 
@@ -172,7 +187,6 @@ namespace FriendsByForce
             {
                 previousFaction = emancipator.Faction;
                 slaverFaction = null;
-                Traverse.Create(Pawn.guest).Field("hostFactionInt").SetValue(null);
                 Pawn.SetFaction(emancipator.Faction);
                 if (Pawn.Faction == Faction.OfPlayer)
                 {
@@ -184,7 +198,6 @@ namespace FriendsByForce
             {
                 Job leaveJob = Utils.EscapeJob(Pawn, false, false, false, false, false);
                 Pawn.SetFaction(null);
-                Traverse.Create(Pawn.guest).Field("hostFactionInt").SetValue(null);
                 Pawn.jobs.TryTakeOrderedJob(leaveJob);
                 if (emancipator.Faction == Faction.OfPlayer)
                 {

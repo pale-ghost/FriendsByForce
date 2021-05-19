@@ -65,19 +65,7 @@ namespace FriendsByForce
     [HarmonyPatch(typeof(JobGiver_OptimizeApparel), "TryGiveJob")]
 	public static class OptimizeApparel_Patch
 	{
-        public static void Prefix(Pawn pawn, out bool __state)
-        {
-            if (pawn.IsSlave() && pawn.Faction != Faction.OfPlayer)
-            {
-                pawn.SetFactionDirect(Faction.OfPlayer);
-                __state = true;
-            }
-            else
-            {
-                __state = false;
-            }
-        }
-        public static void Postfix(Pawn pawn, ref Job __result, bool __state)
+        public static void Postfix(Pawn pawn, ref Job __result)
         {
             if (__result != null)
             {
@@ -89,11 +77,6 @@ namespace FriendsByForce
                 {
                     __result = null;
                 }
-            }
-
-            if (__state && pawn.IsSlave(out CompEnslavement comp) && comp.previousFaction != pawn.Faction)
-            {
-                pawn.SetFactionDirect(comp.previousFaction);
             }
         }
 	}
@@ -122,6 +105,73 @@ namespace FriendsByForce
         }
     }
 
+    [HarmonyPatch(typeof(Thing), "Faction", MethodType.Getter)]
+    public static class Faction_Patch
+    {
+        public static bool lookIntoSlave;
+        private static bool Prefix(Thing __instance, ref Faction __result)
+        {
+            if (lookIntoSlave && __instance is Pawn pawn && pawn.IsSlave(out var slaveComp))
+            {
+                __result = slaveComp.slaverFaction;
+                return false;
+            }
+            return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(Pawn_CarryTracker), "TryDropCarriedThing", 
+        new Type[] { typeof(IntVec3), typeof(ThingPlaceMode), typeof(Thing), typeof(Action<Thing, int>) },
+        new ArgumentType[] {ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out, ArgumentType.Normal})]
+    public static class TryDropCarriedThing_Patch
+    {
+        private static void Prefix(Pawn_CarryTracker __instance)
+        {
+            if (__instance.pawn.IsSlave())
+            {
+                Faction_Patch.lookIntoSlave = true;
+            }
+        }
+        private static void Postfix(Pawn_CarryTracker __instance)
+        {
+            Faction_Patch.lookIntoSlave = false;
+        }
+    }
+
+    [HarmonyPatch(typeof(Pawn_CarryTracker), "TryDropCarriedThing", 
+        new Type[] { typeof(IntVec3), typeof(int), typeof(ThingPlaceMode), typeof(Thing), typeof(Action<Thing, int>) },
+        new ArgumentType[] {ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Out, ArgumentType.Normal})]
+    public static class TryDropCarriedThing_Patch2
+    {
+        private static void Prefix(Pawn_CarryTracker __instance)
+        {
+            if (__instance.pawn.IsSlave())
+            {
+                Faction_Patch.lookIntoSlave = true;
+            }
+        }
+        private static void Postfix(Pawn_CarryTracker __instance)
+        {
+            Faction_Patch.lookIntoSlave = false;
+        }
+    }
+
+    [HarmonyPatch(typeof(ThinkNode_JobGiver), "TryIssueJobPackage")]
+    public static class Patch_TryIssueJobPackage
+    {
+        private static void Prefix(Pawn pawn, JobIssueParams jobParams)
+        {
+            if (pawn.IsSlave())
+            {
+                Faction_Patch.lookIntoSlave = true;
+            }
+        }
+        private static void Postfix(Pawn pawn, JobIssueParams jobParams)
+        {
+            Faction_Patch.lookIntoSlave = false;
+        }
+    }
+
     [HarmonyPatch(typeof(PawnNameColorUtility), "PawnNameColorOf")]
     public static class Patch_PawnNameColorOf
     {
@@ -147,6 +197,27 @@ namespace FriendsByForce
         }
     }
 
+    [HarmonyPatch(typeof(PawnColumnWorker_AllowedArea), "DoCell")]
+    public static class Patch_DoCell
+    {
+        private static void Prefix(Rect rect, Pawn pawn, PawnTable table, out bool __state)
+        {
+            __state = false;
+            if (pawn.IsSlave(out var slaveComp) && slaveComp.slaverFaction == Faction.OfPlayer)
+            {
+                pawn.SetFactionDirect(Faction.OfPlayer);
+                __state = true;
+            }
+        }
+
+        private static void Postfix(Rect rect, Pawn pawn, PawnTable table, bool __state)
+        {
+            if (__state && pawn.IsSlave(out var slaveComp))
+            {
+                pawn.SetFactionDirect(slaveComp.previousFaction);
+            }
+        }
+    }
 
     [HarmonyPatch(typeof(MainTabWindow_PawnTable), "Pawns", MethodType.Getter)]
     public static class Patch_Pawns

@@ -66,7 +66,12 @@ namespace FriendsByForce
 			__result += "job: " + __instance.CurJob + "\n";
 			__result += "driver: " + __instance.jobs.curDriver + "\n";
 			__result += "duty: " + __instance.mindState.duty + "\n";
-			__result += "lord: " + __instance.GetLord()?.LordJob;
+			__result += "lord: " + __instance.GetLord()?.LordJob + "\n";
+			__result += "Faction: " + __instance.Faction + "\n";
+			__result += "HostFaction: " + __instance.HostFaction + "\n";
+			__result += "IsColonist: " + __instance.IsColonist + "\n";
+			__result += "IsColonistPlayerControlled: " + __instance.IsColonistPlayerControlled + "\n";
+			__result += "IsFreeColonist: " + __instance.IsFreeColonist;
 		}
 	}
 }
